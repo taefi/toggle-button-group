@@ -1,0 +1,14 @@
+.status-approved {
+    color: #18900EEF;
+    background-color: #93EA8180;
+}
+
+.status-declined {
+    color: #760101EF;
+    background-color: #EF608280;
+}
+
+.status-not_processed {
+    color: #18273AEF;
+    background-color: #43434833;
+}

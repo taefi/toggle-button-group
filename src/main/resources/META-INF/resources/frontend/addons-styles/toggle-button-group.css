@@ -1,0 +1,24 @@
+
+.toggle-button-group {
+    border-radius: 5px;
+}
+
+.toggle-button-group-button {
+    border-style: solid;
+    border-color: var(--_lumo-button-primary-background-color, var(--lumo-primary-color));
+}
+
+.toggle-button-group-first-button {
+    border-radius: 5px 0 0 5px;
+    border-width: 1px 0 1px 1px;
+}
+
+.toggle-button-group-middle-button {
+    border-radius: 0;
+    border-width: 1px 0 1px 1px;
+}
+
+.toggle-button-group-last-button {
+    border-radius: 0 5px 5px 0;
+    border-width: 1px 1px 1px 1px;
+}
