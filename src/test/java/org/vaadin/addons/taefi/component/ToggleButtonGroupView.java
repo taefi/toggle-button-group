@@ -9,10 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Route("")
@@ -28,14 +25,35 @@ public class ToggleButtonGroupView extends VerticalLayout {
     }
 
     enum Direction {
-        LEFT, RIGHT, UP, DOWN, BACK, FRONT
+        LEFT, RIGHT, UP, DOWN, FORWARD, BACKWARD
     }
 
     enum Answer {
         YES, NO
     }
 
-    record Desert(String name, int availableCount) {}
+    static class Desert {
+        String name;
+        int availableCount;
+
+        public Desert(String name, int availableCount) {
+            this.name = name;
+            this.availableCount = availableCount;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Desert desert = (Desert) o;
+            return name.equals(desert.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name);
+        }
+    }
 
     public ToggleButtonGroupView() {
 
@@ -66,8 +84,8 @@ public class ToggleButtonGroupView extends VerticalLayout {
             case RIGHT -> VaadinIcon.ARROW_CIRCLE_RIGHT.create();
             case UP -> VaadinIcon.ARROW_CIRCLE_UP.create();
             case DOWN -> VaadinIcon.ARROW_CIRCLE_DOWN.create();
-            case FRONT -> VaadinIcon.ARROW_FORWARD.create();
-            case BACK -> VaadinIcon.ARROW_BACKWARD.create();
+            case FORWARD -> VaadinIcon.ARROW_FORWARD.create();
+            case BACKWARD -> VaadinIcon.ARROW_BACKWARD.create();
         });
         group3.setItems(Direction.values());
 
@@ -98,14 +116,26 @@ public class ToggleButtonGroupView extends VerticalLayout {
         group6.setValue("Selected");
         group6.setEnabled(false);
 
+        Map<String, Desert> data = new HashMap<>(Map.of(
+                "Jelly", new Desert("Jelly", 100),
+                "Ice Cream", new Desert("Ice Cream", 50),
+                "Coffee", new Desert("Coffee", 0),
+                "Chocolate Cake", new Desert("Chocolate Cake", 10),
+                "Quark", new Desert("Quark", 0)));
         ToggleButtonGroup<Desert> group7 = new ToggleButtonGroup<>("Choose desert: [unavailable items are disabled]");
         group7.setItemEnabledProvider(item -> item.availableCount > 0);
-        group7.setItems(new Desert("Jelly", 100),
-                new Desert("Ice Cream", 50),
-                new Desert("Coffee", 0),
-                new Desert("Chocolate Cake", 10),
-                new Desert("Quark", 0));
-        group7.setItemLabelGenerator(item -> String.format("%s (%d)", item.name(), item.availableCount()));
+        group7.setItems(data.values().stream().toList());
+        group7.setItemLabelGenerator(item -> String.format("%s (%d)", item.name, item.availableCount));
+        group7.addValueChangeListener(event -> {
+            if (event.getOldValue() != null) {
+                data.get(event.getOldValue().name).availableCount++;
+            }
+            if (event.getValue() != null) {
+                data.get(event.getValue().name).availableCount--;
+            }
+            group7.setItems(data.values().stream().toList());
+            group7.setValue(event.getValue());
+        });
 
         ToggleButtonGroup<Status> group8 = new ToggleButtonGroup<>();
         group8.setLabel("Status: [custom style for selected item]");
@@ -138,7 +168,7 @@ public class ToggleButtonGroupView extends VerticalLayout {
         line9.setAlignItems(Alignment.BASELINE);
 
         ToggleButtonGroup<Status> group10 = new ToggleButtonGroup<>(
-                "Status: [change the order of items at runtime]",
+                "Status: [orientation = Vertical]",
                 Status.values()
         );
         group10.setOrientation(ToggleButtonGroup.Orientation.VERTICAL);

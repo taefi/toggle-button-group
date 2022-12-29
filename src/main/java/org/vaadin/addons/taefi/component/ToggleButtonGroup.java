@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 
 @CssImport("./addons-styles/toggle-button-group.css")
 public class ToggleButtonGroup<T> extends CustomField<T> {
+
     public enum Orientation {
         HORIZONTAL, VERTICAL
     }
@@ -98,19 +99,21 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     protected void addButtonsToLayout(Button[] buttons) {
         if (orientation == Orientation.HORIZONTAL) {
             remove(vLayout);
+
             hLayout.setSpacing(false);
-            hLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.EVENLY);
-            add(hLayout);
             hLayout.removeAll();
             hLayout.add(buttons);
             hLayout.setFlexGrow(1.0, buttons);
+            add(hLayout);
         } else {
             remove(hLayout);
+
             vLayout.setSpacing(false);
-            vLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.EVENLY);
-            add(vLayout);
             vLayout.removeAll();
             vLayout.add(buttons);
+            vLayout.setFlexGrow(1.0, buttons);
+            vLayout.setAlignItems(FlexComponent.Alignment.STRETCH);
+            add(vLayout);
         }
     }
 
@@ -139,19 +142,23 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     }
 
     protected Optional<String> getButtonsBaseClass() {
-        return Optional.of("toggle-button-group-button");
+        return Optional.of("toggle-button-group-button-" + getOrientationStylePostfix());
     }
 
     protected Optional<String> getFirstButtonClass() {
-        return Optional.of("toggle-button-group-first-button");
+        return Optional.of("toggle-button-group-first-button-" + getOrientationStylePostfix());
     }
 
     protected Optional<String> getMiddleButtonClass() {
-        return Optional.of("toggle-button-group-middle-button");
+        return Optional.of("toggle-button-group-middle-button-" + getOrientationStylePostfix());
     }
 
     protected Optional<String> getLastButtonClass() {
-        return Optional.of("toggle-button-group-last-button");
+        return Optional.of("toggle-button-group-last-button-" + getOrientationStylePostfix());
+    }
+
+    private String getOrientationStylePostfix() {
+        return orientation == Orientation.HORIZONTAL ? "h" : "v";
     }
 
     private Comparator<T> getDefaultComparator() {
@@ -324,6 +331,8 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     protected void fireValueChangeEvent(T oldValue, T newValue, boolean fromClient) {
         if (!Objects.equals(itemIdGenerator.apply(oldValue), itemIdGenerator.apply(newValue))) {
             fireEvent(new AbstractField.ComponentValueChangeEvent<>(this, this, oldValue, fromClient));
+        } else {
+            updateStyles(oldValue, newValue);
         }
     }
 
@@ -332,7 +341,7 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
             Serializable oldSelectedId = itemIdGenerator.apply(oldValue);
             Button oldSelected = idToButtonMap.get(oldSelectedId);
             String oldSelectedCustomClass = selectedItemClassNameGenerator.apply(oldValue);
-            if (StringUtils.isNotBlank((oldSelectedCustomClass))) {
+            if (StringUtils.isNotBlank(oldSelectedCustomClass)) {
                 oldSelected.removeClassName(oldSelectedCustomClass);
             } else {
                 oldSelected.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
