@@ -2,6 +2,7 @@ package org.vaadin.addons.taefi.component;
 
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.customfield.CustomField;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @CssImport("./addons-styles/toggle-button-group.css")
 public class ToggleButtonGroup<T> extends CustomField<T> {
@@ -47,7 +49,6 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     public ToggleButtonGroup() {
         addClassName("toggle-button-group");
         items = new ArrayList<>();
-        addValueChangeListener(event -> updateStyles(event.getOldValue(), event.getValue()));
     }
 
     public ToggleButtonGroup(String label) {
@@ -195,7 +196,15 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        this.hLayout.getChildren().filter(Button.class::isInstance)
+        setReadOnly(!enabled);
+
+        Stream<Component> componentStream;
+        if (Orientation.HORIZONTAL == this.orientation) {
+            componentStream = this.hLayout.getChildren();
+        } else {
+            componentStream = this.vLayout.getChildren();
+        }
+        componentStream.filter(Button.class::isInstance)
                 .map(Button.class::cast)
                 .forEach(button -> button.setEnabled(enabled));
     }
@@ -329,10 +338,10 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     }
 
     protected void fireValueChangeEvent(T oldValue, T newValue, boolean fromClient) {
+        updateStyles(oldValue, newValue);
+
         if (!Objects.equals(itemIdGenerator.apply(oldValue), itemIdGenerator.apply(newValue))) {
             fireEvent(new AbstractField.ComponentValueChangeEvent<>(this, this, oldValue, fromClient));
-        } else {
-            updateStyles(oldValue, newValue);
         }
     }
 

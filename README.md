@@ -12,7 +12,7 @@ It has API for:
 - Setting label and tooltip for the component
 - Support for adding value change listeners
 
-And customizing the buttons in a functional way:
+And customizing the buttons in a functional way by:
 
 - Providing item enabled provider
 - Providing item label generator

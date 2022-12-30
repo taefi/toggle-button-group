@@ -7,12 +7,11 @@
     <groupId>org.vaadin.addons.taefi</groupId>
     <artifactId>toggle-button-group</artifactId>
     <version>1.0.0</version>
-    <name>Add-on for Vaadin</name>
-    <description>Vertical Rule</description>
+    <name>Toggle Button Group</name>
+    <description>This component provides a group of toggleable buttons for single selection among the provided generic objects.</description>
 
     <properties>
         <vaadin.version>23.3.0</vaadin.version>
-
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
