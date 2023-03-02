@@ -6,12 +6,12 @@
 
     <groupId>org.vaadin.addons.taefi</groupId>
     <artifactId>toggle-button-group</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <name>Toggle Button Group</name>
     <description>This component provides a group of toggleable buttons for single selection among the provided generic objects.</description>
 
     <properties>
-        <vaadin.version>23.3.0</vaadin.version>
+        <vaadin.version>23.3.6</vaadin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
