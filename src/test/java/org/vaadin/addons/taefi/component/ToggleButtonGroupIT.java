@@ -15,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 public class ToggleButtonGroupIT extends AbstractViewTest {
@@ -292,6 +293,15 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     private void hoverOn(WebElement hoverTarget) {
         Actions action = new Actions(getDriver());
         action.moveToElement(hoverTarget).perform();
+        delay(500); // enough delay for the tooltip to show up
+    }
+
+    private void delay(long milliseconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliseconds);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private VaadinIcon getIconForWebElement(WebElement element) {
