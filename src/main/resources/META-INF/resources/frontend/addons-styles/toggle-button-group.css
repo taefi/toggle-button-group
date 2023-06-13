@@ -3,6 +3,14 @@
 
 }
 
+.toggle-button-group-button-s:not([theme~=primary]) {
+	display:none;
+}
+
+.toggle-button-group-button-s[theme~=primary] {
+	display: unset;
+}
+
 .toggle-button-group-button-h {
     border-style: solid;
     border-color: var(--_lumo-button-primary-background-color, var(--lumo-primary-color));

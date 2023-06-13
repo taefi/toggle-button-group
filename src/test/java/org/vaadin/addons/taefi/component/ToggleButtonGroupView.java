@@ -226,9 +226,19 @@ public class ToggleButtonGroupView extends VerticalLayout {
             case RIGHT -> VaadinIcon.ALIGN_RIGHT.create();
         });
         group110.setItemLabelGenerator(textAlignment -> "");
+        
+        ToggleButtonGroup<TextAlignment> group1101 = new ToggleButtonGroup<>("Alignment:");
+        group1101.setItems(TextAlignment.values());
+        group1101.setItemIconGenerator(align -> switch (align) {
+            case LEFT -> VaadinIcon.ALIGN_LEFT.create();
+            case CENTER -> VaadinIcon.ALIGN_CENTER.create();
+            case RIGHT -> VaadinIcon.ALIGN_RIGHT.create();
+        });
+        group1101.setItemLabelGenerator(textAlignment -> "");
+        group100.setOrientation(ToggleButtonGroup.Orientation.STACKED);
 
 
-        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110);
+        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110,group1101);
         halfLayout.setId("parent-layout");
         halfLayout.getStyle().set("width", "50%");
         halfLayout.getStyle().set("border", "solid red 1px");
