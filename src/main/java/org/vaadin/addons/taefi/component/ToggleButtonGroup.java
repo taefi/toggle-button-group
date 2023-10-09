@@ -350,10 +350,12 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
             Serializable oldSelectedId = itemIdGenerator.apply(oldValue);
             Button oldSelected = idToButtonMap.get(oldSelectedId);
             String oldSelectedCustomClass = selectedItemClassNameGenerator.apply(oldValue);
-            if (StringUtils.isNotBlank(oldSelectedCustomClass)) {
-                oldSelected.removeClassName(oldSelectedCustomClass);
-            } else {
-                oldSelected.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            if (oldSelected != null) {
+                if (StringUtils.isNotBlank(oldSelectedCustomClass)) {
+                    oldSelected.removeClassName(oldSelectedCustomClass);
+                } else {
+                    oldSelected.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+                }
             }
         }
 
