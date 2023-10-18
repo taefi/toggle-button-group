@@ -2,7 +2,7 @@ package org.vaadin.addons.taefi.component;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.customfield.testbench.CustomFieldElement;
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.html.testbench.NativeLabelElement;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.TestBenchElement;
@@ -15,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 public class ToggleButtonGroupIT extends AbstractViewTest {
@@ -30,7 +31,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void registeredValueChangeListener_IsCalledAccordingly() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group10-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
 
         List<WebElement> groupButtons = getGroupButtons("group10");
@@ -58,7 +59,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void toggleableGroup_clearsSelection_whenSelectedOptionReClicked() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group15-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group15-selected-value");
 
         WebElement burgerButton = getGroupButtons("group15").get(2);
         burgerButton.click();
@@ -80,7 +81,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void notToggleableGroup_doesNotClearSelection_whenSelectedOptionReClicked() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group10-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
 
         WebElement burgerButton = getGroupButtons("group10").get(2);
         burgerButton.click();
@@ -98,7 +99,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void notToggleableGroup_valueCanBeCleared_Programmatically() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group10-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
 
         WebElement pastaButton = getGroupButtons("group10").get(0);
@@ -116,7 +117,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     }
 
     @Test
-    public void widthFullGroup_hasWith100PercentStyle() {
+    public void widthFullGroup_hasWidth100PercentStyle() {
         CustomFieldElement group20 = $(CustomFieldElement.class).id("group20");
         Assert.assertTrue(group20.getAttribute("style").contains("width: 100%"));
 
@@ -155,7 +156,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void groupSetToReadonly_canNotChangeValue() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group50-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group50-selected-value");
         Assert.assertEquals("B", selectedValueLabel.getText());
 
         List<WebElement> buttons = getGroupButtons("group50");
@@ -292,6 +293,15 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     private void hoverOn(WebElement hoverTarget) {
         Actions action = new Actions(getDriver());
         action.moveToElement(hoverTarget).perform();
+        delay(500); // enough delay for the tooltip to show up
+    }
+
+    private void delay(long milliSeconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliSeconds);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private VaadinIcon getIconForWebElement(WebElement element) {
