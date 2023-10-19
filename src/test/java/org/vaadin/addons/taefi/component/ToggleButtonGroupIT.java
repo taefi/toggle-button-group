@@ -281,12 +281,13 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
         if (tooltipId == null) {
             return Optional.empty();
         }
-        List<TestBenchElement> tooltips = $("vaadin-tooltip-overlay").all();
+        List<TestBenchElement> tooltips = $("vaadin-tooltip").all();
         if (tooltips.isEmpty()) {
             return Optional.empty();
         }
         return tooltips.stream()
-                .filter(testBenchElement -> testBenchElement.getAttribute("id").equals(tooltipId))
+                .map(tooltip -> tooltip.findElement(By.tagName("div")))
+                .filter(div -> div.getAttribute("id").equals(tooltipId))
                 .findFirst();
     }
 
