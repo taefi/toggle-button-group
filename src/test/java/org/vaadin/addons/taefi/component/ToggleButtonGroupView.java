@@ -217,6 +217,8 @@ public class ToggleButtonGroupView extends VerticalLayout {
         );
         group100.setId("group100");
         group100.setOrientation(ToggleButtonGroup.Orientation.VERTICAL);
+        
+        
 
         ToggleButtonGroup<TextAlignment> group110 = new ToggleButtonGroup<>("Alignment:");
         group110.setItems(TextAlignment.values());
@@ -226,9 +228,17 @@ public class ToggleButtonGroupView extends VerticalLayout {
             case RIGHT -> VaadinIcon.ALIGN_RIGHT.create();
         });
         group110.setItemLabelGenerator(textAlignment -> "");
+        
+        ToggleButtonGroup<Status> group120 = new ToggleButtonGroup<>(
+                "Status: [orientation = Stacked]",
+                Status.values()
+        );
+        group120.setId("group120");
+        group120.setOrientation(ToggleButtonGroup.Orientation.STACKED);
+        group120.setValue(Status.APPROVED);
+        
 
-
-        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110);
+        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110,group120);
         halfLayout.setId("parent-layout");
         halfLayout.getStyle().set("width", "50%");
         halfLayout.getStyle().set("border", "solid red 1px");

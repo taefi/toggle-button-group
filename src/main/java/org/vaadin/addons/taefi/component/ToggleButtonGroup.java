@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class ToggleButtonGroup<T> extends CustomField<T> {
 
     public enum Orientation {
-        HORIZONTAL, VERTICAL
+        HORIZONTAL, VERTICAL, STACKED
     }
 
     private List<T> items;
@@ -95,6 +95,10 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
         }
 
         addButtonsToLayout(buttons);
+        
+        if(orientation == Orientation.STACKED) {
+            setValue(items.get(0), false);
+        }
     }
 
     protected void addButtonsToLayout(Button[] buttons) {
@@ -159,7 +163,15 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     }
 
     private String getOrientationStylePostfix() {
-        return orientation == Orientation.HORIZONTAL ? "h" : "v";
+        switch(orientation) {
+        case HORIZONTAL:
+            return "h";
+        case STACKED:
+            return "s";
+        case VERTICAL:
+            return "v";
+        default: throw new IllegalArgumentException();
+        }
     }
 
     private Comparator<T> getDefaultComparator() {
@@ -186,7 +198,13 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
             Serializable selectedValueId = itemIdGenerator.apply(selectedValue);
             Serializable previousValueId = itemIdGenerator.apply(getValue());
             if (Objects.equals(selectedValueId, previousValueId)) {
-                setValue(null, event.isFromClient());
+                if(orientation == Orientation.STACKED) {
+                    int itemIndex = items.indexOf(selectedValue)+1;
+                    T nextItem = items.get(itemIndex == items.size() ? 0 : itemIndex);
+                    setValue(nextItem, event.isFromClient());
+                }
+                else setValue(null, event.isFromClient());
+                
                 return;
             }
         }
