@@ -7,6 +7,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.TestBenchElement;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -19,6 +20,12 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ToggleButtonGroupIT extends AbstractViewTest {
+
+    @Before
+    public void setup() throws Exception {
+        super.setup();
+        waitForElementPresent(By.ById.id("group120"));
+    }
 
     @Test
     public void group_withLabelAddedToView_groupIsRendered_labelIsRendered() {
@@ -34,6 +41,8 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
         NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
 
+        CustomFieldElement group10 = $(CustomFieldElement.class).id("group10");
+        group10.scrollIntoView();
         List<WebElement> groupButtons = getGroupButtons("group10");
 
         WebElement pastaButton = groupButtons.get(0);
@@ -60,6 +69,8 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     @Test
     public void toggleableGroup_clearsSelection_whenSelectedOptionReClicked() {
         NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group15-selected-value");
+        CustomFieldElement group15 = $(CustomFieldElement.class).id("group15");
+        group15.scrollIntoView();
 
         WebElement burgerButton = getGroupButtons("group15").get(2);
         burgerButton.click();
@@ -82,6 +93,8 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     @Test
     public void notToggleableGroup_doesNotClearSelection_whenSelectedOptionReClicked() {
         NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
+        CustomFieldElement group10 = $(CustomFieldElement.class).id("group10");
+        group10.scrollIntoView();
 
         WebElement burgerButton = getGroupButtons("group10").get(2);
         burgerButton.click();
@@ -101,6 +114,8 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     public void notToggleableGroup_valueCanBeCleared_Programmatically() {
         NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
+        CustomFieldElement group10 = $(CustomFieldElement.class).id("group10");
+        group10.scrollIntoView();
 
         WebElement pastaButton = getGroupButtons("group10").get(0);
         pastaButton.click();
@@ -130,6 +145,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     @Test
     public void group_withTooltip_tooltipOverlayIsShownWhenFocused() {
         CustomFieldElement group20 = $(CustomFieldElement.class).id("group20");
+        group20.scrollIntoView();
         hoverOn(group20);
         Assert.assertTrue("Tooltip for group with id 'group20' should be visible.", isTooltipVisibleFor(group20));
     }
@@ -193,6 +209,8 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void group_withEnabledSetToFalse_hasAllButtonsDisabled() {
+        CustomFieldElement group60 = $(CustomFieldElement.class).id("group60");
+        group60.scrollIntoView();
         List<WebElement> buttons = getGroupButtons("group60");
         buttons.forEach(button -> Assert.assertFalse(isButtonEnabled(button)));
     }
@@ -265,6 +283,26 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
         Assert.assertThrows(NoSuchElementException.class,
                 () -> group100.findElement(By.tagName("vaadin-horizontal-layout")));
+    }
+
+    // https://github.com/taefi/toggle-button-group/issues/8
+    @Test
+    public void customizingGroupAfterSetValue_theStylesRemainInTact() {
+        List<WebElement> buttons = getGroupButtons("group120");
+        // customization after setting the value should not affect the selected item's style:
+        Assert.assertEquals("primary", buttons.get(1).getAttribute("theme"));
+        // customizing using setItemTooltipTextGenerator still works:
+        hoverOn(buttons.get(0));
+        Assert.assertEquals("Answer is yes",
+                getTooltipFor(buttons.get(0))
+                        .map(TestBenchElement::getText)
+                        .orElse(""));
+
+        hoverOn(buttons.get(1));
+        Assert.assertEquals("Answer is no",
+                getTooltipFor(buttons.get(1))
+                        .map(TestBenchElement::getText)
+                        .orElse(""));
     }
 
     private List<WebElement> getGroupButtons(String groupId) {

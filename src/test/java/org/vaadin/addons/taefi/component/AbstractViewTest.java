@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.vaadin.flow.theme.AbstractTheme;
 import com.vaadin.testbench.ScreenshotOnFailureRule;
@@ -61,6 +62,10 @@ public abstract class AbstractViewTest extends ParallelTest {
             setDriver(TestBench.createDriver(new ChromeDriver()));
         }
         getDriver().get(getURL(route));
+    }
+
+    protected void waitForElementPresent(By by) {
+        this.waitUntil(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     /**
