@@ -2,7 +2,7 @@ package org.vaadin.addons.taefi.component;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.customfield.testbench.CustomFieldElement;
-import com.vaadin.flow.component.html.testbench.LabelElement;
+import com.vaadin.flow.component.html.testbench.NativeLabelElement;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;
 import com.vaadin.testbench.TestBenchElement;
@@ -16,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 public class ToggleButtonGroupIT extends AbstractViewTest {
@@ -37,7 +38,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void registeredValueChangeListener_IsCalledAccordingly() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group10-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
 
         CustomFieldElement group10 = $(CustomFieldElement.class).id("group10");
@@ -111,7 +112,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void notToggleableGroup_valueCanBeCleared_Programmatically() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group10-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group10-selected-value");
         Assert.assertEquals("", selectedValueLabel.getText());
         CustomFieldElement group10 = $(CustomFieldElement.class).id("group10");
         group10.scrollIntoView();
@@ -171,7 +172,7 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
 
     @Test
     public void groupSetToReadonly_canNotChangeValue() {
-        LabelElement selectedValueLabel = $(LabelElement.class).id("group50-selected-value");
+        NativeLabelElement selectedValueLabel = $(NativeLabelElement.class).id("group50-selected-value");
         Assert.assertEquals("B", selectedValueLabel.getText());
 
         List<WebElement> buttons = getGroupButtons("group50");
@@ -318,18 +319,28 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
         if (tooltipId == null) {
             return Optional.empty();
         }
-        List<TestBenchElement> tooltips = $("vaadin-tooltip-overlay").all();
+        List<TestBenchElement> tooltips = $("vaadin-tooltip").all();
         if (tooltips.isEmpty()) {
             return Optional.empty();
         }
         return tooltips.stream()
-                .filter(testBenchElement -> testBenchElement.getAttribute("id").equals(tooltipId))
+                .map(tooltip -> tooltip.findElement(By.tagName("div")))
+                .filter(div -> div.getAttribute("id").equals(tooltipId))
                 .findFirst();
     }
 
     private void hoverOn(WebElement hoverTarget) {
         Actions action = new Actions(getDriver());
         action.moveToElement(hoverTarget).perform();
+        delay(500); // enough delay for the tooltip to show up
+    }
+
+    private void delay(long milliSeconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliSeconds);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private VaadinIcon getIconForWebElement(WebElement element) {

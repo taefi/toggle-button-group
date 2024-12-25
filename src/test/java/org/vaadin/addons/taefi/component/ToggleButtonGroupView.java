@@ -2,7 +2,7 @@ package org.vaadin.addons.taefi.component;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -65,8 +65,8 @@ public class ToggleButtonGroupView extends VerticalLayout {
         group10.setId("group10");
         group10.setLabel("Menu: [toggleable = false] (ValueChangeListener publishes the selected value)");
         group10.setToggleable(false);
-        Label lbl10 = new Label("Selection: ");
-        Label selected10 = new Label();
+        NativeLabel lbl10 = new NativeLabel("Selection: ");
+        NativeLabel  selected10 = new NativeLabel();
         selected10.setId("group10-selected-value");
         group10.addValueChangeListener(event -> selected10.setText(Optional.ofNullable(event.getValue()).map(Objects::toString).orElse("")));
         Button clear10 = new Button("Clear Selection", event -> group10.setValue(null));
@@ -77,8 +77,8 @@ public class ToggleButtonGroupView extends VerticalLayout {
         ToggleButtonGroup<Menu> group15 = new ToggleButtonGroup<>(List.of(Menu.values()));
         group15.setId("group15");
         group15.setLabel("Menu: [toggleable = true (default)] (ValueChangeListener publishes the selected value)");
-        Label lbl15 = new Label("Selection: ");
-        Label selected15 = new Label();
+        NativeLabel  lbl15 = new NativeLabel ("Selection: ");
+        NativeLabel  selected15 = new NativeLabel();
         selected15.setId("group15-selected-value");
         group15.addValueChangeListener(event -> selected15.setText(Optional.ofNullable(event.getValue()).map(Objects::toString).orElse("")));
         HorizontalLayout line15 = new HorizontalLayout(group15, lbl15, selected15);
@@ -132,8 +132,8 @@ public class ToggleButtonGroupView extends VerticalLayout {
         );
         group50.setTooltipText("Grades are calculated based on a 0-100 scale system.");
         group50.setReadOnly(true);
-        Label lbl50 = new Label("Selection: ");
-        Label selected50 = new Label();
+        NativeLabel  lbl50 = new NativeLabel ("Selection: ");
+        NativeLabel  selected50 = new NativeLabel();
         selected50.setId("group50-selected-value");
         group50.addValueChangeListener(event -> selected50.setText(Optional.ofNullable(event.getValue()).map(Objects::toString).orElse("")));
         group50.setValue("B");
