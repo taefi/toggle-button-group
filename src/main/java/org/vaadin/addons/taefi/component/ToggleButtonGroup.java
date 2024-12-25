@@ -95,6 +95,7 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
         }
 
         addButtonsToLayout(buttons);
+        updateStyles(getValue(), getValue());
     }
 
     protected void addButtonsToLayout(Button[] buttons) {
