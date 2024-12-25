@@ -246,9 +246,9 @@
     "@polymer/polymer": "$@polymer/polymer",
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
     "date-fns": "$date-fns",
-    "@vaadin/cookie-consent": "$@vaadin/cookie-consent",
     "@vaadin/a11y-base": "$@vaadin/a11y-base",
     "@vaadin/side-nav": "$@vaadin/side-nav",
-    "mobile-drag-drop": "$mobile-drag-drop"
+    "mobile-drag-drop": "$mobile-drag-drop",
+    "@vaadin/cookie-consent": "$@vaadin/cookie-consent"
   }
 }
