@@ -227,8 +227,20 @@ public class ToggleButtonGroupView extends VerticalLayout {
         });
         group110.setItemLabelGenerator(textAlignment -> "");
 
+        ToggleButtonGroup<Answer> group120 = new ToggleButtonGroup<>();
+        group120.setId("group120");
+        group120.setItems(List.of(Answer.values()));
+        group120.setValue(Answer.NO);
+        // adding the generator last appears to mess with the default selection
+        group120.setItemTooltipTextGenerator(answer ->
+                switch (answer) {
+                    case YES -> "Answer is yes";
+                    case NO -> "Answer is no";
+                    default -> throw new IllegalStateException("Unexpected value");
+                }
+        );
 
-        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110);
+        VerticalLayout halfLayout = new VerticalLayout(line10, line15, group20, group30, line40, line50, group60, group70, group80, line90, group100, group110, group120);
         halfLayout.setId("parent-layout");
         halfLayout.getStyle().set("width", "50%");
         halfLayout.getStyle().set("border", "solid red 1px");
