@@ -21,7 +21,6 @@
     "@vaadin/component-base": "23.3.7",
     "@vaadin/confirm-dialog": "23.3.7",
     "@vaadin/context-menu": "23.3.7",
-    "@vaadin/cookie-consent": "23.3.7",
     "@vaadin/custom-field": "23.3.7",
     "@vaadin/date-picker": "23.3.7",
     "@vaadin/date-time-picker": "23.3.7",
@@ -70,7 +69,6 @@
     "@vaadin/vaadin-combo-box": "23.3.7",
     "@vaadin/vaadin-confirm-dialog": "23.3.7",
     "@vaadin/vaadin-context-menu": "23.3.7",
-    "@vaadin/vaadin-cookie-consent": "23.3.7",
     "@vaadin/vaadin-custom-field": "23.3.7",
     "@vaadin/vaadin-date-picker": "23.3.7",
     "@vaadin/vaadin-date-time-picker": "23.3.7",
@@ -147,7 +145,6 @@
       "@vaadin/component-base": "23.3.7",
       "@vaadin/confirm-dialog": "23.3.7",
       "@vaadin/context-menu": "23.3.7",
-      "@vaadin/cookie-consent": "23.3.7",
       "@vaadin/custom-field": "23.3.7",
       "@vaadin/date-picker": "23.3.7",
       "@vaadin/date-time-picker": "23.3.7",
@@ -196,7 +193,6 @@
       "@vaadin/vaadin-combo-box": "23.3.7",
       "@vaadin/vaadin-confirm-dialog": "23.3.7",
       "@vaadin/vaadin-context-menu": "23.3.7",
-      "@vaadin/vaadin-cookie-consent": "23.3.7",
       "@vaadin/vaadin-custom-field": "23.3.7",
       "@vaadin/vaadin-date-picker": "23.3.7",
       "@vaadin/vaadin-date-time-picker": "23.3.7",
@@ -252,7 +248,7 @@
       "workbox-core": "6.5.4",
       "workbox-precaching": "6.5.4"
     },
-    "hash": "59953f11548f48e45834f64a7be70a63f70352146f1ee0f5e1eb73cb4982b0cd"
+    "hash": "2d09ba3aac83f435a2c1e8103add58ef71f3453fe8a541659260fc2fb48373ab"
   },
   "overrides": {
     "@vaadin/bundles": "$@vaadin/bundles",
@@ -359,8 +355,6 @@
     "@vaadin/multi-select-combo-box": "$@vaadin/multi-select-combo-box",
     "@vaadin/vaadin-confirm-dialog": "$@vaadin/vaadin-confirm-dialog",
     "@vaadin/tabsheet": "$@vaadin/tabsheet",
-    "@vaadin/tooltip": "$@vaadin/tooltip",
-    "@vaadin/cookie-consent": "$@vaadin/cookie-consent",
-    "@vaadin/vaadin-cookie-consent": "$@vaadin/vaadin-cookie-consent"
+    "@vaadin/tooltip": "$@vaadin/tooltip"
   }
 }
