@@ -65,7 +65,7 @@ public abstract class AbstractViewTest extends ParallelTest {
     }
 
     protected void waitForElementPresent(By by) {
-        this.waitUntil(ExpectedConditions.presenceOfElementLocated(by));
+        this.waitUntil(ExpectedConditions.presenceOfElementLocated(by), 50);
     }
 
     /**

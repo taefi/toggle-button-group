@@ -16,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 
 public class ToggleButtonGroupIT extends AbstractViewTest {
@@ -330,6 +331,15 @@ public class ToggleButtonGroupIT extends AbstractViewTest {
     private void hoverOn(WebElement hoverTarget) {
         Actions action = new Actions(getDriver());
         action.moveToElement(hoverTarget).perform();
+        delay(500);
+    }
+
+    private void delay(long milliSeconds) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(milliSeconds);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private VaadinIcon getIconForWebElement(WebElement element) {
