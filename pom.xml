@@ -11,7 +11,7 @@
     <description>This component provides a group of toggleable buttons for single selection among the provided generic objects.</description>
 
     <properties>
-        <vaadin.version>24.3.20</vaadin.version>
+        <vaadin.version>24.4.21</vaadin.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
