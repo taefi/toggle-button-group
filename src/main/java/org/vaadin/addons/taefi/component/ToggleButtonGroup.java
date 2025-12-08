@@ -11,17 +11,29 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.shared.ThemeVariant;
 import com.vaadin.flow.function.SerializableFunction;
-import org.apache.commons.lang3.StringUtils;
+import com.vaadin.flow.server.VaadinContext;
+import com.vaadin.flow.server.VaadinServlet;
+import com.vaadin.flow.server.frontend.ThemeUtils;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @CssImport("./addons-styles/toggle-button-group.css")
 public class ToggleButtonGroup<T> extends CustomField<T> {
+
+    private final ButtonVariant PRIMARY_VARIANT;
 
     public enum Orientation {
         HORIZONTAL, VERTICAL
@@ -49,6 +61,14 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     public ToggleButtonGroup() {
         addClassName("toggle-button-group");
         items = new ArrayList<>();
+        PRIMARY_VARIANT = Optional.ofNullable(this.getThemeName())
+                .map(themeName -> switch (themeName.toLowerCase()) {
+                    case "aura" -> ButtonVariant.AURA_PRIMARY;
+                    case "lumo" -> ButtonVariant.LUMO_PRIMARY;
+                    default -> null;
+                })
+                .orElse(ButtonVariant.AURA_PRIMARY);
+
     }
 
     public ToggleButtonGroup(String label) {
@@ -352,10 +372,10 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
             Button oldSelected = idToButtonMap.get(oldSelectedId);
             String oldSelectedCustomClass = selectedItemClassNameGenerator.apply(oldValue);
             if (oldSelected != null) {
-                if (StringUtils.isNotBlank(oldSelectedCustomClass)) {
+                if (isNotBlank(oldSelectedCustomClass)) {
                     oldSelected.removeClassName(oldSelectedCustomClass);
                 } else {
-                    oldSelected.removeThemeVariants(ButtonVariant.LUMO_PRIMARY);
+                    oldSelected.removeThemeVariants(PRIMARY_VARIANT);
                 }
             }
         }
@@ -363,10 +383,11 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
         Serializable newSelectedId = itemIdGenerator.apply(newValue);
         Optional.ofNullable(idToButtonMap.get(newSelectedId)).ifPresent(newSelected -> {
             String newSelectedCustomClass = selectedItemClassNameGenerator.apply(newValue);
-            if (StringUtils.isNotBlank((newSelectedCustomClass))) {
+            if (isNotBlank((newSelectedCustomClass))) {
                 newSelected.addClassName(newSelectedCustomClass);
             } else {
-                newSelected.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
+                newSelected.addThemeVariants(PRIMARY_VARIANT);
             }
         });
     }
@@ -379,5 +400,9 @@ public class ToggleButtonGroup<T> extends CustomField<T> {
     @Override
     protected void setPresentationValue(T t) {
 
+    }
+
+    private static boolean isNotBlank(String s) {
+        return s != null && !s.isBlank();
     }
 }

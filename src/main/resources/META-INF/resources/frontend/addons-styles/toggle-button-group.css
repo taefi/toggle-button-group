@@ -5,7 +5,8 @@
 
 .toggle-button-group-button-h {
     border-style: solid;
-    border-color: var(--_lumo-button-primary-background-color, var(--lumo-primary-color));
+    /*border-color: var(--lumo-primary-color);*/
+    --vaadin-button-border-color: var(--vaadin-button-primary-background);
 }
 
 .toggle-button-group-first-button-h {
@@ -25,7 +26,8 @@
 
 .toggle-button-group-button-v {
     border-style: solid;
-    border-color: var(--_lumo-button-primary-background-color, var(--lumo-primary-color));
+    /*border-color: var(--lumo-primary-color);*/
+    --vaadin-button-border-color: var(--vaadin-button-primary-background);
     width: 100%;
     margin: 0 var(--lumo-space-xs);
 }
